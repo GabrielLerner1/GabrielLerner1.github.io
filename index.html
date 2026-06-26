@@ -300,13 +300,99 @@
     }
     .wpp-float:hover .wpp-tooltip { opacity: 1; }
 
+    /* ── HAMBURGER MENU ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 0.5rem;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--gold);
+      transition: all 0.3s;
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(7,14,26,0.97);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 1.3rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-close {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      background: none; border: none;
+      color: var(--gold); font-size: 2rem;
+      cursor: pointer; line-height: 1;
+    }
+    .mobile-lang {
+      display: flex; gap: 0.75rem; margin-top: 1rem;
+    }
+    .mobile-lang button {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.4rem 1rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .mobile-lang button.active {
+      background: var(--gold);
+      color: var(--dark);
+      border-color: var(--gold);
+    }
+
     @media (max-width: 860px) {
       nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
+      .hamburger { display: flex; }
       section { padding: 4rem 1.5rem; }
-      .hero { padding: 0 1.5rem; }
+      .hero { padding: 0 1.5rem; min-height: 100svh; }
+      .hero h1 { font-size: clamp(2.4rem, 10vw, 3.5rem); }
+      .hero-sub { font-size: 0.9rem; }
       .sobre-grid, .contato-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .sobre-img img { aspect-ratio: 4/5; }
+      .sobre-img::after { display: none; }
+      .areas-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+      /* Diferenciais bar */
+      div[style*="padding:1.2rem 4rem"] { padding: 1.2rem 1.5rem !important; gap: 1.2rem !important; flex-direction: column !important; align-items: flex-start !important; }
+      /* Valores cards */
+      section[style*="background:#f5f0ea"] { padding: 2.5rem 1.5rem !important; }
+      .wpp-float { bottom: 1.2rem; right: 1.2rem; width: 52px; height: 52px; }
+      .contato-grid { gap: 2rem; }
+      .cta-box { padding: 1.8rem 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: clamp(2rem, 9vw, 2.8rem); }
+      .section-title { font-size: clamp(1.7rem, 7vw, 2.2rem); }
+      .sobre-text p { font-size: 0.9rem; }
+      .area-card { padding: 2rem 1.5rem; }
     }
   </style>
 </head>
@@ -550,6 +636,31 @@
       // update title
       const titleEl = document.querySelector('title');
       if (titleEl) titleEl.textContent = titleEl.getAttribute('data-' + lang);
+    }
+  </script>
+
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <button class="mobile-close" onclick="closeMenu()">&#x2715;</button>
+    <a href="#sobre" onclick="closeMenu()" id="mm-sobre">Sobre</a>
+    <a href="#atuacao" onclick="closeMenu()" id="mm-atuacao">Atuação</a>
+    <a href="#como" onclick="closeMenu()" id="mm-como">Como Funciona</a>
+    <a href="#contato" onclick="closeMenu()" id="mm-contato">Contato</a>
+    <div class="mobile-lang">
+      <button id="mm-btn-pt" class="active" onclick="setLang('pt');closeMenu()">🇧🇷 PT</button>
+      <button id="mm-btn-en" onclick="setLang('en');closeMenu()">🇺🇸 EN</button>
+    </div>
+  </div>
+
+  <script>
+    function openMenu() {
+      document.getElementById('mobile-menu').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      document.getElementById('mobile-menu').classList.remove('open');
+      document.body.style.overflow = '';
     }
   </script>
 
